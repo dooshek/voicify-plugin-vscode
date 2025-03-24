@@ -3,10 +3,13 @@ package main
 import (
 	"strings"
 
-	"github.com/dooshek/voicify/internal/clipboard"
-	"github.com/dooshek/voicify/internal/logger"
-	"github.com/dooshek/voicify/internal/types"
-	"github.com/dooshek/voicify/internal/windowdetect"
+	"github.com/dooshek/voicify/pkg/pluginapi"
+)
+
+var (
+	logger    = pluginapi.NewLogger()
+	clipboard = pluginapi.NewClipboard()
+	window    = pluginapi.NewWindow()
 )
 
 // VSCodePlugin is a plugin for VSCode
@@ -24,8 +27,8 @@ func (p *VSCodePlugin) Initialize() error {
 }
 
 // GetMetadata returns metadata about the plugin
-func (p *VSCodePlugin) GetMetadata() types.PluginMetadata {
-	return types.PluginMetadata{
+func (p *VSCodePlugin) GetMetadata() pluginapi.PluginMetadata {
+	return pluginapi.PluginMetadata{
 		Name:        "vscode",
 		Version:     "1.0.0",
 		Description: "Plugin for Visual Studio Code",
@@ -34,8 +37,8 @@ func (p *VSCodePlugin) GetMetadata() types.PluginMetadata {
 }
 
 // GetActions returns a list of actions provided by this plugin
-func (p *VSCodePlugin) GetActions(transcription string) []types.PluginAction {
-	return []types.PluginAction{
+func (p *VSCodePlugin) GetActions(transcription string) []pluginapi.PluginAction {
+	return []pluginapi.PluginAction{
 		&Action{transcription: transcription},
 	}
 }
@@ -43,19 +46,14 @@ func (p *VSCodePlugin) GetActions(transcription string) []types.PluginAction {
 // Execute executes the VSCode action
 func (a *Action) Execute(transcription string) error {
 	logger.Debugf("Checking if VSCode should execute action for transcription: %s", transcription)
-	windowDetector, err := windowdetect.New()
-	if err != nil {
-		logger.Error("Error getting window detector", err)
-		return err
-	}
-	window, err := windowDetector.GetFocusedWindow()
+	focusedWindow, err := window.GetFocusedWindow()
 	if err != nil {
 		logger.Error("Error getting focused window", err)
 		return err
 	}
 
-	logger.Debugf("Checking window title: %s", window.Title)
-	if !strings.Contains(window.Title, "VSC") {
+	logger.Debugf("Checking window title: %s", focusedWindow.Title)
+	if !strings.Contains(focusedWindow.Title, "VSC") {
 		logger.Debug("VSCode is not open, skipping action")
 		return nil
 	}
@@ -66,8 +64,8 @@ func (a *Action) Execute(transcription string) error {
 }
 
 // GetMetadata returns metadata about the action
-func (a *Action) GetMetadata() types.ActionMetadata {
-	return types.ActionMetadata{
+func (a *Action) GetMetadata() pluginapi.ActionMetadata {
+	return pluginapi.ActionMetadata{
 		Name:        "vscode",
 		Description: "wykonanie akcji w edytorze VSCode",
 		LLMCommands: &[]string{
@@ -81,7 +79,7 @@ func (a *Action) GetMetadata() types.ActionMetadata {
 
 // CreatePlugin creates a new instance of the VSCode plugin
 // This function is loaded by the plugin manager
-func CreatePlugin() types.VoicifyPlugin {
+func CreatePlugin() pluginapi.VoicifyPlugin {
 	return &VSCodePlugin{}
 }
 
