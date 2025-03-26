@@ -2,14 +2,16 @@ module github.com/dooshek/voicify-plugin-vscode
 
 go 1.23.7
 
-require github.com/dooshek/voicify v0.2.0
+require (
+	github.com/dooshek/voicify v0.2.0
+	github.com/go-vgo/robotgo v0.110.6
+)
 
 require (
 	github.com/dblohm7/wingoes v0.0.0-20240820181039-f2b84150679e // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
 	github.com/gen2brain/shm v0.1.1 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
-	github.com/go-vgo/robotgo v0.110.6 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
 	github.com/kbinani/screenshot v0.0.0-20250118074034-a3924b7bbc8c // indirect
