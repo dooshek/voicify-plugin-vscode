@@ -3,7 +3,7 @@ module github.com/dooshek/voicify-plugin-vscode
 go 1.23.7
 
 require (
-	github.com/dooshek/voicify v0.2.0
+	github.com/dooshek/voicify v0.2.1
 	github.com/go-vgo/robotgo v0.110.6
 )
 
@@ -32,5 +32,6 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/image v0.25.0 // indirect
+	golang.org/x/net v0.37.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 )
