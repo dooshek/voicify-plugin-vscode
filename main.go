@@ -302,7 +302,4 @@ func CreatePlugin() pluginapi.VoicifyPlugin {
 }
 
 // This is required for Go plugins
-var (
-	// Export the plugin creation function
-	_ = CreatePlugin
-)
+var Plugin = CreatePlugin
