@@ -2,7 +2,7 @@ module github.com/dooshek/voicify-plugin-vscode
 
 go 1.23.7
 
-require github.com/dooshek/voicify v0.1.0
+require github.com/dooshek/voicify v0.1.1
 
 require (
 	github.com/dblohm7/wingoes v0.0.0-20240820181039-f2b84150679e // indirect
