@@ -231,11 +231,7 @@ func isX11() bool {
 	return strings.ToLower(session) == "x11"
 }
 
-var (
-	logger    = NewLogger()
-	clipboard = NewClipboard()
-	window    = NewWindow()
-)
+var logger = NewLogger()
 
 // VSCodePlugin is a plugin for VSCode
 type VSCodePlugin struct{}
@@ -271,6 +267,7 @@ func (p *VSCodePlugin) GetActions(transcription string) []pluginapi.PluginAction
 // Execute executes the VSCode action
 func (a *Action) Execute(transcription string) error {
 	logger.Debugf("Checking if VSCode should execute action for transcription: %s", transcription)
+	window := NewWindow()
 	focusedWindow, err := window.GetFocusedWindow()
 	if err != nil {
 		logger.Error("Error getting focused window", err)
@@ -283,6 +280,7 @@ func (a *Action) Execute(transcription string) error {
 		return nil
 	}
 
+	clipboard := NewClipboard()
 	clipboard.PasteWithReturn(transcription)
 
 	return nil
