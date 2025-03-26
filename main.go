@@ -10,7 +10,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dooshek/voicify/pkg/pluginapi"
 	"github.com/go-vgo/robotgo"
 )
 
@@ -248,8 +247,8 @@ func (p *VSCodePlugin) Initialize() error {
 }
 
 // GetMetadata returns metadata about the plugin
-func (p *VSCodePlugin) GetMetadata() pluginapi.PluginMetadata {
-	return pluginapi.PluginMetadata{
+func (p *VSCodePlugin) GetMetadata() PluginMetadata {
+	return PluginMetadata{
 		Name:        "vscode",
 		Version:     "1.0.0",
 		Description: "Plugin for Visual Studio Code",
@@ -258,8 +257,8 @@ func (p *VSCodePlugin) GetMetadata() pluginapi.PluginMetadata {
 }
 
 // GetActions returns a list of actions provided by this plugin
-func (p *VSCodePlugin) GetActions(transcription string) []pluginapi.PluginAction {
-	return []pluginapi.PluginAction{
+func (p *VSCodePlugin) GetActions(transcription string) []PluginAction {
+	return []PluginAction{
 		&Action{transcription: transcription},
 	}
 }
@@ -287,8 +286,8 @@ func (a *Action) Execute(transcription string) error {
 }
 
 // GetMetadata returns metadata about the action
-func (a *Action) GetMetadata() pluginapi.ActionMetadata {
-	return pluginapi.ActionMetadata{
+func (a *Action) GetMetadata() ActionMetadata {
+	return ActionMetadata{
 		Name:        "vscode",
 		Description: "wykonanie akcji w edytorze VSCode",
 		Priority:    2,
@@ -297,9 +296,9 @@ func (a *Action) GetMetadata() pluginapi.ActionMetadata {
 
 // CreatePlugin creates a new instance of the VSCode plugin
 // This function is loaded by the plugin manager
-func CreatePlugin() pluginapi.VoicifyPlugin {
+func CreatePlugin() VoicifyPlugin {
 	return &VSCodePlugin{}
 }
 
-// This is required for Go plugins
-var Plugin = CreatePlugin
+// This ensures the function name is in the binary's exported symbols
+var _ = CreatePlugin
