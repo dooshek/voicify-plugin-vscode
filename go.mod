@@ -2,10 +2,10 @@ module github.com/dooshek/voicify-plugin-vscode
 
 go 1.23.7
 
-require github.com/go-vgo/robotgo v0.110.6
-
-// Use the local version of the package to ensure binary compatibility
-replace github.com/dooshek/voicify => ../../
+require (
+	github.com/dooshek/voicify v0.2.1
+	github.com/go-vgo/robotgo v0.110.6
+)
 
 require (
 	github.com/dblohm7/wingoes v0.0.0-20240820181039-f2b84150679e // indirect
@@ -18,7 +18,6 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20250317134145-8bc96cf8fc35 // indirect
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/otiai10/gosseract v2.2.1+incompatible // indirect
-	github.com/otiai10/mint v1.6.3 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/robotn/xgb v0.10.0 // indirect
 	github.com/robotn/xgbutil v0.10.0 // indirect
