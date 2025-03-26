@@ -68,12 +68,7 @@ func (a *Action) GetMetadata() pluginapi.ActionMetadata {
 	return pluginapi.ActionMetadata{
 		Name:        "vscode",
 		Description: "wykonanie akcji w edytorze VSCode",
-		LLMCommands: &[]string{
-			"vscode",
-			"edytor",
-			"visual studio code",
-		},
-		Priority: 2,
+		Priority:    2,
 	}
 }
 
