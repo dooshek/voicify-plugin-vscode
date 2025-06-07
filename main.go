@@ -243,7 +243,7 @@ type Action struct {
 
 // Initialize initializes the VSCode plugin
 func (p *VSCodePlugin) Initialize() error {
-	logger.Info("VSCode plugin initialized")
+	logger.Debug("VSCode plugin initialized")
 	return nil
 }
 
