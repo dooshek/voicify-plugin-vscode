@@ -29,10 +29,9 @@ const (
 )
 
 var (
-	currentLevel  LogLevel  = LevelInfo
-	output        io.Writer = os.Stdout
-	mu            sync.Mutex
-	ydotoolSocket string
+	currentLevel LogLevel  = LevelInfo
+	output       io.Writer = os.Stdout
+	mu           sync.Mutex
 )
 
 // Logger provides logging functionality for plugins
@@ -202,24 +201,22 @@ func (c *Clipboard) PasteWithReturn(text string) error {
 	}
 
 	if isX11() {
-		// Use robotgo for X11 - paste with Ctrl+V instead of typing each character
+		// Use robotgo for X11
 		robotgo.KeyTap("v", "ctrl")
 		robotgo.KeyTap("enter")
 	} else {
-		// Wayland implementation using ydotool
-		// First press Ctrl+V to paste
-		// cmd := exec.Command("ydotool", "key", "29:1", "47:1", "47:0", "29:0") // Ctrl+V
-		// cmd.Env = append(os.Environ(), "YDOTOOL_SOCKET="+ydotoolSocket)
-		// if err := cmd.Run(); err != nil {
-		//     return err
-		// }
+		// Wayland: Use XWayland compatibility layer (most reliable on Fedora)
+		cmd := exec.Command("xdotool", "key", "ctrl+v")
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to paste: %v", err)
+		}
 
-		// // Then press Enter
-		// cmd = exec.Command("ydotool", "key", "28:1", "28:0") // Enter key
-		// cmd.Env = append(os.Environ(), "YDOTOOL_SOCKET="+ydotoolSocket)
-		// if err := cmd.Run(); err != nil {
-		//     return err
-		// }
+		// Press Enter
+		time.Sleep(50 * time.Millisecond)
+		cmd = exec.Command("xdotool", "key", "Return")
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to press enter: %v", err)
+		}
 	}
 
 	return nil
@@ -230,8 +227,6 @@ func isX11() bool {
 	session := os.Getenv("XDG_SESSION_TYPE")
 	return strings.ToLower(session) == "x11"
 }
-
-var logger = NewLogger()
 
 // VSCodePlugin is a plugin for VSCode
 type VSCodePlugin struct{}
@@ -303,3 +298,5 @@ func CreatePlugin() pluginapi.VoicifyPlugin {
 
 // This ensures the function name is in the binary's exported symbols
 var _ = CreatePlugin
+
+var logger = NewLogger()
